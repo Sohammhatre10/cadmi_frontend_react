@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+.title {
+  width: auto;
+  color: rgb(255, 255, 255);
+  font-size: 100px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  animation: fadeShadow 2s infinite alternate ease-in-out;
+}
+
+html, body {
+  background-color: rgb(0, 0, 0);
+}
