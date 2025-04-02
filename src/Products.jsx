@@ -10,5 +10,4 @@ function Products({ a, b }) {
     </div>
   );
 }
-
 export default Products;
