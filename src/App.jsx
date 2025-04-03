@@ -6,6 +6,7 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const suggestions = [
     'Find top universities in the USA',
@@ -18,18 +19,27 @@ function App() {
   const handleSearch = async () => {
     if (!query.trim()) return;
     
+    setLoading(true);
+    setResponse(null);
+
     try {
-      const res = await fetch('http://127.0.0.1:8000/infer', {
+      const res = await fetch('http://localhost:5000/infer', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: query }),
       });
 
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+
       const data = await res.json();
       setResponse(data.result);
     } catch (error) {
       console.error('Error fetching data:', error);
-      setResponse('Error fetching data');
+      setResponse('Error fetching data. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,6 +106,10 @@ function App() {
         </div>
 
         {/* Display API Response */}
+        {loading && (
+          <div className="text-white mt-6">Fetching response...</div>
+        )}
+
         {response && (
           <div className="bg-zinc-800 p-4 rounded-2xl shadow-lg w-full max-w-2xl mt-6 text-white">
             <h3 className="text-lg font-semibold">Response:</h3>
